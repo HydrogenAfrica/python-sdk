@@ -1,0 +1,11 @@
+*.pyc
+.vscode
+.env
+build/
+dist/
+hydrogen_python.egg-info/
+staging
+zero
+.coverage
+app.py
+template

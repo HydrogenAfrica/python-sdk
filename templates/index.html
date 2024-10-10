@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python SDK Testing</title>
+  </head>
+  <body>
+    <h3>Python SDK Testing</h3>
+    <form action="/initiate" method="post">
+      <label for="amount">Amount:</label><br />
+      <input type="text" id="amount" name="amount" /><br />
+      <label for="email">Email:</label><br />
+      <input type="text" id="email" name="email" /><br />
+      <label for="customerName">Customer Name:</label><br />
+      <input type="text" id="customerName" name="customerName" /><br />
+      <label for="meta">Last Name:</label><br />
+      <input type="text" id="meta" name="meta" /><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <h3>Initiate Bank Transfer</h3>
+    <form action="/banktransfer" method="post">
+      <label for="amount">Amount:</label><br />
+      <input type="text" id="amount" name="amount" /><br />
+      <label for="email">Email:</label><br />
+      <input type="text" id="email" name="email" /><br />
+      <label for="customerName">customer Name:</label><br />
+      <input type="text" id="customerName" name="customerName" /><br />
+      <label for="description">Description:</label><br />
+      <input type="text" id="description" name="description" /><br />
+      <label for="meta">Other Info:</label><br />
+      <input type="text" id="meta" name="meta" /><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+
+    <h3>Stimulate Bank Transfer Transaction</h3>
+    <form action="/stimulatebanktransfer" method="post">
+      <label for="clientTransactionRef">Client TransactionRef:</label><br />
+      <input type="text" id="clientTransactionRef" name="clientTransactionRef" /><br />
+      <label for="amount">Amount:</label><br />
+      <input type="text" id="amount" name="amount" /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <div id="iframe_container"></div>
+    {% if auth_url %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          loadIframe('{{ auth_url }}');
+      });
+    </script>
+    {% endif %}
+    <script>
+      function loadIframe(authUrl) {
+          var iframeContainer = document.getElementById('iframe_container');
+          iframeContainer.innerHTML = '';  // Clear any existing iframe
+          var iframe = document.createElement('iframe');
+          iframe.src = authUrl;
+          iframe.width = "100%";
+          iframe.height = "500px";
+          iframeContainer.appendChild(iframe);
+      }
+    </script>
+  </body>
+</html>
