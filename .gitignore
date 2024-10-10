@@ -8,4 +8,4 @@ staging
 zero
 .coverage
 app.py
-template
+templates
