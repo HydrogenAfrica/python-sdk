@@ -1,8 +1,4 @@
-<p align="center">
-    <img title="Hydrogen" height="200" src="https://hydrogenshared.blob.core.windows.net/shared/hydrogen-logo2.png" width="50%"/>
-</p>
-
-# Hydrogen Python
+# Hydrogen Python SDK
 
 ## Introduction
 
@@ -22,9 +18,10 @@ Key features:
 3. [Initialization](#initialization)
 4. [Usage](#usage)
 5. [Testing](#testing)
+5. [Support](#Support)
 6. [Contribution](#Contribution)
 7. [License](#License)
-7. [ Hydrogenpay API References](#)
+7. [ Hydrogenpay API References](#Hydrogenpay API References)
 
 
 ## Requirements
@@ -454,7 +451,7 @@ python -m unittest discover -s tests
 For more assistance with this SDK, reach out to the Developer Experience team via [email](mailto:support@hydrogenpay.com) or consult our documentation [here](https://docs.hydrogenpay.com/reference/api-authentication)
 
 
-## Contribution guidelines
+## Contribution
 
 If you discover a bug or have a solution to improve the Hydrogen Payment Gateway for the WooCommerce plugin, we welcome your contributions to enhance the code.
 
