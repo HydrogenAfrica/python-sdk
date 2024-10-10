@@ -60,7 +60,7 @@ class TestInitiateBankTransfer(unittest.TestCase):
         try:
             # Call the SDK initiate function and validate the response
             response = self.hydrogenpay.Transfer.initiate(transfer_details)
-            logger.info("Bank transfer initiation successful:")
+            logger.info("Bank transfer initiated successfully:")
             logger.info(json.dumps(response, indent=4))
 
             # Assert the expected response structure and values

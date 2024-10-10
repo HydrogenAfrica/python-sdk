@@ -45,7 +45,7 @@ class TestSimulateBankTransfer(unittest.TestCase):
         Validates that the response contains required fields like orderId and transactionId.
         """
 
-         # Mock data for simulating a bank transfer
+        # Mock data for simulating a bank transfer
         transfer_details = {
             "amount": "50",
             "currency": "NGN",
