@@ -10,3 +10,5 @@ zero
 app.py
 templates/
 test_hydrogenpay.py
+templates
+test_hydrogenpay.py

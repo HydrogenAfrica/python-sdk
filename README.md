@@ -45,6 +45,7 @@ from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
 hydrogenpay = Hydrogenpay("YOUR SANDBOX_API_KEY", "YOUR SECRET API_KEY", 'test', setEnv=True)
 
 # Initialize Hydrogenpay without API keys from environment variables
+# hydrogenpay = Hydrogenpay(os.getenv("SANDBOX_API_KEY"), os.getenv("LIVE_API_KEY"), os.getenv("MODE"), setEnv=False)
 hydrogenpay = Hydrogenpay("YOUR SANDBOX_API_KEY", "YOUR SECRETE API_KEY", 'test', setEnv=False)
 
 # Call the PaymentService class to confirm the payment status
