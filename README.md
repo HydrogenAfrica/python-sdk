@@ -35,7 +35,8 @@ To install the library, run
 
 ```sh
 
-pip install hydrogenpay-python
+pip install hydrogenpay_python
+
 
 ```
 
@@ -447,7 +448,9 @@ python -m unittest test_simulate_bank_transfer.py
 
 If you want to run all tests in the tests directory together, you can use the following command:
 
-python -m unittest discover -s tests
+# python -m unittest discover -s tests
+python -m unittest discover -s hydrogenpay_python/tests -p "*.py"
+
 
 ```
 

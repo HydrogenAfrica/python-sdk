@@ -3,4 +3,5 @@ include LICENSE
 include pyproject.toml
 include .env.sample
 recursive-include hydrogenpay_python *.py
-recursive-include tests *.py
+recursive-include hydrogenpay_python/tests *
+
