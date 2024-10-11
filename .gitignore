@@ -3,7 +3,7 @@
 .env
 build/
 dist/
-hydrogen_python.egg-info/
+hydrogenpay_python.egg-info/
 staging
 zero
 .coverage
