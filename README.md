@@ -448,9 +448,7 @@ python -m unittest test_simulate_bank_transfer.py
 
 If you want to run all tests in the tests directory together, you can use the following command:
 
-# python -m unittest discover -s tests
-python -m unittest discover -s hydrogenpay_python/tests -p "*.py"
-
+python -m unittest discover -s tests
 
 ```
 
