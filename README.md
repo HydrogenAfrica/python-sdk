@@ -6,7 +6,7 @@ The Python library facilitates seamless payments via card transactions and accou
 Seamlessly integrate Hydrogen APIs with Flask, Django, and other Python applications. Our library simplifies direct integration, enabling rapid and efficient API requests.
 
 Python library for [Hydrogen](https://hydrogenpay.com/)
-View on [pypi.python.org](https://pypi.org/project/hydrogenpay-python/1.0.2/)
+View on [pypi.python.org](https://pypi.org/project/hydrogenpay-python/1.0.3/)
 
 Key features:
 

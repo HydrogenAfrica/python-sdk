@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="hydrogenpay_python",
-    version="1.0.2",
+    version="1.0.3",
     author="Hydrogen",
     author_email="support@hydrogenpay.com",
     description="Python library for Hydrogen to process payments through card transactions and account transfers, ensuring faster delivery of goods and services.",
