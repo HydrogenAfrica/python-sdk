@@ -3,10 +3,12 @@
 .env
 build/
 dist/
-hydrogen_python.egg-info/
+hydrogenpay_python.egg-info/
 staging
 zero
 .coverage
 app.py
 templates/
+test_hydrogenpay.py
+templates
 test_hydrogenpay.py

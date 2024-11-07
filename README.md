@@ -5,6 +5,8 @@
 The Python library facilitates seamless payments via card transactions and account transfers, ensuring faster delivery of goods and services. 
 Seamlessly integrate Hydrogen APIs with Flask, Django, and other Python applications. Our library simplifies direct integration, enabling rapid and efficient API requests.
 
+Python library for [Hydrogen](https://hydrogenpay.com/)
+View on [pypi.python.org](https://pypi.org/project/hydrogenpay-python/1.0.2/)
 
 Key features:
 
@@ -34,6 +36,7 @@ Key features:
 To install the library, run
 
 ```sh
+
 pip install hydrogenpay_python
 
 ```
@@ -48,6 +51,7 @@ from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
 hydrogenpay = Hydrogenpay("YOUR SANDBOX_API_KEY", "YOUR SECRET API_KEY", 'test', setEnv=True)
 
 # Initialize Hydrogenpay without API keys from environment variables
+# hydrogenpay = Hydrogenpay(os.getenv("SANDBOX_API_KEY"), os.getenv("LIVE_API_KEY"), os.getenv("MODE"), setEnv=False)
 hydrogenpay = Hydrogenpay("YOUR SANDBOX_API_KEY", "YOUR SECRETE API_KEY", 'test', setEnv=False)
 
 # Call the PaymentService class to confirm the payment status
@@ -293,7 +297,6 @@ Bank transfer initiated successfully:
 ```
 
 
-
 ## ```Bank Transfer```
 
 Simulate a Bank Transfer Transaction to test account transfer behavior for completing transactions. The response includes essential details such as transaction status. Use the transactionRef from the initiate transfer to complete the simulation."
@@ -438,7 +441,7 @@ Payment initiation successful:
 }
 
 ```
-TODO Start Here
+
 ## ```Generate Client Key```
 Generates an apiRequestKey, clientIV and clientKey for secure communication with other endpoints.
 
