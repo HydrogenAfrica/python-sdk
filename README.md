@@ -29,7 +29,7 @@ Key features:
 
 ## Requirements
 1. Supported Python versions: >=2.7, !=3.0.\*, !=3.1.\*, !=3.2.\*, !=3.3.\*, !=3.4.\*
-2  **Recommended Python version:** >=3.7
+2.  **Recommended Python version:** >=3.7
 
 
 ## Installation
@@ -832,7 +832,8 @@ Response Example:
 ```
 
 **Endpoint Flow Summary For Card Transaction**
-The payment flow varies based on the response code from the purchase call:
+
+- The payment flow varies based on the response code from the purchase call:
 
 ***Response Code H01 (OTP Authentication Required):***
 
