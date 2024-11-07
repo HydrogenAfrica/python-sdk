@@ -4,3 +4,5 @@
 Updated payment methods.
 ### Version changes.
 ## 1.0.2 | 2024-10-11
+## 1.0.3 | 2024-11-07
+
