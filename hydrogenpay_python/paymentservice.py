@@ -54,3 +54,4 @@ class PaymentService(Payment):
     def confirmpayment(self, txRef):
         endpoint = self._baseUrlMap + self._endpointMap['paymentservice']['confirmpayment']
         return super(PaymentService, self).confirmpayment(txRef, endpoint)
+    

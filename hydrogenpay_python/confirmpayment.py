@@ -14,17 +14,16 @@ class ConfirmPayment(HydrogenpayBase):
             mode,
             setEnv)
 
-    def _preliminaryResponseChecks(self, response, TypeOfErrorToRaise, name):
+    def _preliminaryResponseChecks(self, response, TypeOfErrorToRaise):
         try:
             responseJson = response.json()
         except BaseException:
             raise ServerError(
-                {"error": True, "name": name, "errMsg": response})
+                {"error": True, "errMsg": response})
 
         # check for data parameter in response
         if not responseJson.get("data", None):
             raise TypeOfErrorToRaise({"error": True,
-                                      "name": name,
                                       "errMsg": responseJson.get("message",
                                                                  "Server is down")})
 

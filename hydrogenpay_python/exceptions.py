@@ -59,13 +59,13 @@ class ServerError(HydrogenpayError):
         return " Server is down with error: " + self.err["errMsg"]
 
 class TransactionChargeError(HydrogenpayError):
-    """ Raised when a transaction charge has failed """
+    """ Raised when a transaction initiate has failed """
 
     def __init__(self, err):
         self.err = err
 
     def __str__(self):
-        return "Your account charge call failed with message: " + \
+        return "Your payment initiate call failed with message: " + \
             self.err["errMsg"]
 
 class TransactionValidationError(HydrogenpayError):

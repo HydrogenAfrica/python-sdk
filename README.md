@@ -10,9 +10,10 @@ View on [pypi.python.org](https://pypi.org/project/hydrogenpay-python/1.0.2/)
 
 Key features:
 
-- Collections: Card, Transfers, Payments, Bank Transfers.
+- Collections: Card, Transfers, Payments, 3DSecure, Bank Transfers.
 - Recurring payments: Subscription-based payments.
 - Confirmation: Payment Confirmation.
+- Validation: OTP Validation, 3DSecure Validation
 
 ## Table of Contents
 1. [Requirements](#requirements)
@@ -27,7 +28,8 @@ Key features:
 
 
 ## Requirements
-2. Supported Python versions: >=2.7, !=3.0.\*, !=3.1.\*, !=3.2.\*, !=3.3.\*, !=3.4.\*
+1. Supported Python versions: >=2.7, !=3.0.\*, !=3.1.\*, !=3.2.\*, !=3.3.\*, !=3.4.\*
+2.  **Recommended Python version:** >=3.7
 
 
 ## Installation
@@ -36,7 +38,6 @@ To install the library, run
 ```sh
 
 pip install hydrogenpay_python
-
 
 ```
 
@@ -65,6 +66,26 @@ response = self.hydrogenpay.PaymentService.initiate(payment_details)
 # Call the BankTransfer class to simulate a bank transfer
 response = self.hydrogenpay.BankTransfer.simulatetransfer(transfer_details)
 
+# Call the Card class to initiate a card payment request to the customer
+response = self.hydrogenpay.Card.purchase(transaction_details, request_key)
+
+# Call the Card class to validate the OTP when the purchase call response code is H01
+response = self.hydrogenpay.Card.validateOTP(validation_data, request_key)
+
+# Call the Card class to resend the OTP if it fails to deliver to the customer
+response = self.hydrogenpay.Card.resendOTP(resend_data, request_key)
+
+# Call the Card class to confirm the status of transactions
+response = self.hydrogenpay.Card.confirmPurchaseStatus(txRef, request_key)
+
+# Call the Card class to generate an apiRequestKey, clientIV, and clientKey for secure communication
+response = self.hydrogenpay.Card.generateClientKey()
+
+# Call the Card class to validate 3D Secure when the purchase call response code is H51
+response = self.hydrogenpay.Card.validate3DSecure(txRef, request_key)
+
+# Call the Card class to process billing information for 3D Secure if the response code is H51
+response = self.hydrogenpay.Card.aggregateBillingInformation(billing_data, request_key)
 
 ```
 
@@ -276,7 +297,6 @@ Bank transfer initiated successfully:
 ```
 
 
-
 ## ```Bank Transfer```
 
 Simulate a Bank Transfer Transaction to test account transfer behavior for completing transactions. The response includes essential details such as transaction status. Use the transactionRef from the initiate transfer to complete the simulation."
@@ -422,6 +442,431 @@ Payment initiation successful:
 
 ```
 
+## ```Generate Client Key```
+Generates an apiRequestKey, clientIV and clientKey for secure communication with other endpoints.
+
+
+*Usage*
+
+```python
+
+from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
+import logging #If Using Logging instead of print.
+
+# Generate Client Key for Card transaction
+
+        try:
+            # Call the SDK to generate ClientKey for Card encryption
+            response = self.hydrogenpay.Card.generateClientKey()
+
+            logger.info("Client Key Generated Successful:")
+            logger.info(json.dumps(response, indent=4))
+
+
+        except HydrogenpayExceptions.TransactionVerificationError as e:
+            # Fail the test if transaction confirmation fails
+            self.fail(f"Client Key Generation Failed: {e}")
+
+```
+
+*Returns*
+
+Response Example:
+
+```py
+
+Client Key Generated Successful:
+{
+    "statusCode": "90000",
+    "message": null,
+    "data": {
+        "merchantRef": "30013606",
+        "apiRequestKey": "617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D",
+        "clientIV": "4betVRpFIVwvbNLJwMszew==",
+        "clientKey": "NBiPLxlq0WWInT4Hob+glw=="
+    }
+}
+
+```
+
+## ```Card Purchase```
+Initiates a card payment request to the customer.
+
+*Usage*
+
+```python
+
+from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
+import logging #If Using Logging instead of print.
+
+
+        # Use the SDK to generate a ClientKey and Iv for card transactions.
+        response = self.hydrogenpay.Card.generateClientKey()
+
+        data = response["data"]
+        # Retrieve the client key and IV from the generateClientKey method.
+        iv = data['clientIV']  # example IV
+        key = data['clientKey']  # example key
+        
+        # Encrypt the card details JSON.
+        card_details = {
+            "CardNumber": "4456530000001096",
+            "ExpiryMonth": "30",
+            "ExpiryYear": "50",
+            "Pin": "1111",
+            "Cvv": "111"
+        }
+
+        payment_details_json = json.dumps(card_details)
+
+        # Encrypt card details
+        encrypted_text = self.hydrogenpay.Card._encrypt_card_details(payment_details_json, key, iv)
+        print(f"Encrypted Card Details Test: {encrypted_text}")
+
+        # Mock data for initiating a card purchase call
+        request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
+
+        transaction_details = {
+            "transactionRef": "994vy44-345123399944978",
+            "customerId": "abc",
+            "amount": "10",
+            "currency": "NGN",
+            "ipAddress": "1.0.0.1",
+            "callbackUrl": "https://hydrogenpay.com",
+            "cardDetails": encrypted_text,
+            "deviceInformation": {
+                "httpBrowserLanguage": "en-US",
+                "httpBrowserJavaEnabled": False,
+                "httpBrowserJavaScriptEnabled": True,
+                "httpBrowserColorDepth": "24",
+                "httpBrowserScreenHeight": "820",
+                "httpBrowserScreenWidth": "360",
+                "httpBrowserTimeDifference": "05",
+                "userAgentBrowserValue": "Mozilla/5.0 (Linux; Android 12; Infinix X6819) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36",
+                "deviceChannel": "browser"
+            }
+        }
+
+        try:
+            # Use the SDK to initiate a card purchase.
+            response = self.hydrogenpay.Card.purchase(transaction_details, request_key)
+
+            logger.info("Card Purchase Successful:")
+            logger.info(json.dumps(response, indent=4))
+
+
+        except HydrogenpayExceptions.TransactionVerificationError as e:
+            # Fail the test if transaction fails
+            self.fail(f"Card Purchase Failed: {e}")
+
+```
+
+*Arguments*
+
+- `amount`: Amount to be charged..
+- `currency`: Default to NGN if not passed, other currencies available are USD and GBP.
+- `callbackUrl`: URL to redirect after transaction.
+- `customerId`: Unique identifier for the customer.
+- `transactionRef`: Unique reference for the transaction.
+- `cardDetails`: Encrypted card details.
+
+
+*Returns*
+
+Response Example:
+
+```py
+Encrypted Card Details Test: w20lrIwGih9wyrnDNYfqXndcwtsfz8onveKhcQooFHBhpZHW5B5/CA4iTVdGUv7BY6c9purFu6JN6P1XclRvd3AOYrrZwDY3iCed2D0xjyLK7A9e2UDJ9cs+ese9y9akfQCNHi84ox32MUdCyhZ6mg==
+
+Card Purchase Successful:
+
+{
+    "statusCode": "90000",
+    "message": "Kindly enter the OTP sent to 234805***1111",
+    "data": {
+        "referenceInformationCode": "30013606_36754a39f5",
+        "responseCode": "H01",
+        "amount": "10.00",
+        "transactionRef": "994vy44-345123399944978",
+        "status": null,
+        "submitTimeUtc": "Nov 7th 2024 | 09:13am",
+        "transactionId": "d0020000-524b-fa8e-c52b-08dcff0c80e5",
+        "transactionId3DSecure": "474512713",
+        "eciFlag": null,
+        "md": null,
+        "termUrl": null,
+        "accessToken": null,
+        "nextActionUrl": null,
+        "errors": []
+    }
+}
+
+```
+
+## ```OTP```
+Validates the OTP when the purchase call response code is H01
+
+*Usage*
+
+```python
+
+from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
+import logging #If Using Logging instead of print.
+
+        # Mock data for Opt Validation for purchase call
+        request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
+
+        validation_data = {
+            "otp": "123456",
+            "transactionRef": "503021992595_99550f9c94"
+        }
+
+        try:
+            # OTP Validation
+            response = self.hydrogenpay.Card.validateOTP(validation_data, request_key)
+
+            logger.info("OTP Validation Successful:")
+            logger.info(json.dumps(response, indent=4))
+
+
+        except HydrogenpayExceptions.TransactionVerificationError as e:
+            # Fail the test if transaction fails
+            self.fail(f"OTP Validation Failed: {e}")
+
+```
+
+*Arguments*
+
+- `otp`: One-time password received by the customer.
+- `transactionRef`: Unique reference for the transaction.
+
+
+*Returns*
+
+Response Example:
+
+```py
+OTP Validation Successful:
+
+{
+    "statusCode": "90000",
+    "message": "Operation Successful",
+    "data": {
+        "amount": "789.00",
+        "transactionIdentifier": "FBN|API|MX102560|25-07-2023|474512713|693990",
+        "message": "Approved by Financial Institution",
+        "transactionRef": "503021992595_99550f9c94",
+        "responseCode": "00"
+    }
+}
+
+```
+
+## ```Resend OTP```
+Used when OTP fails to deliver.
+
+*Usage*
+
+```python
+
+from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
+import logging #If Using Logging instead of print.
+
+
+        request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
+
+        resend_data = {
+            "transactionRef": "1164vy32-332231222476",
+            "amount": "10",
+        }
+
+        try:
+            # Resend OTP
+            response = self.hydrogenpay.Card.resendOTP(resend_data, request_key)
+
+            logger.info("OTP Resend Successful:")
+            logger.info(json.dumps(response, indent=4))
+
+
+        except HydrogenpayExceptions.TransactionVerificationError as e:
+            # Fail the test if transaction fails
+            self.fail(f"OTP Resend Failed: {e}")
+
+
+```
+
+*Arguments*
+
+- `amount`: Amount to be charged.
+- `transactionRef`: Unique reference for the transaction.
+
+```
+```
+
+## ```Confirm Status```
+Confirms the status of card transactions.
+
+*Usage*
+
+```python
+
+from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
+import logging #If Using Logging instead of print.
+
+        # Transaction reference obtained from a previous payment initiation
+        request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
+
+        txRef = "1164vy32-332231222476"  # Replace with an actual reference
+
+        try:
+            # Use the SDK to confirm the payment status.
+            response = self.hydrogenpay.Card.confirmPurchaseStatus(txRef, request_key)
+
+            logger.info("Status Confirm Successful:")
+            logger.info(json.dumps(response, indent=4))
+
+
+        except HydrogenpayExceptions.TransactionVerificationError as e:
+            # Fail the test if transaction confirmation fails
+            self.fail(f"Confirm Status Failed: {e}")
+
+```
+
+*Arguments*
+
+- `transactionRef`: Unique reference for the transaction.
+
+*Returns*
+
+Response Example:
+
+```py
+
+Status Confirm Successful:
+{
+    "status": "90000",
+    "message": null,
+    "data": {
+        "responseCode": "0000",
+        "responseDescription": "Approved by Financial Institution",
+        "transactionReference": "2347063908100_49656fafd7",
+        "amount": 1000,
+        "remittanceAmount": 0,
+        "customerName": null,
+        "bank": null,
+        "status": null,
+        "submitTimeUtc": "11/07/2024 10:05:58",
+        "clientReferenceInformation": null,
+        "accountName": null,
+        "accountNo": null,
+        "maskedPan": "445653******1096",
+        "cardExpiry": "jXLGNL6Jz9iMIFwhQrsdWQ==",
+        "transactionId": "53950000-ca6c-aabb-3d5e-08dcf8fa1ecb",
+        "completedTimeUtc": "Oct 30th 2024 | 03:47pm",
+        "errors": []
+    },
+    "error": false
+}
+
+```
+
+## ```Billing Information```
+Process billing information for 3D Secure if response code is H51.
+
+*Usage*
+
+```python
+
+from hydrogenpay_python import Hydrogenpay, HydrogenpayExceptions
+import logging #If Using Logging instead of print.
+
+
+        # Mock data for billing infor.
+        request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
+
+        billing_data = {
+            "transactionRef": "111213a2411ss23adxsfas4bc1",
+            "phoneNumber": "4158880000",
+            "email": "kanika02@nagarro.com",
+            "country": "Nigeria",
+            "countryCode": "+234",
+            "postalCode": "521403",
+            "administrativeArea": "Abia",
+            "locality": "sanfrancisco",
+            "address1": " Market St",
+            "lastName": "gade",
+            "firstName": "amarnath",
+            "callBackUrl": "https://qa-dev.hydrogenpay.com/qa/cybersource/v1/payment-redirect-v2?transactionId=1b190000-29d0-fe84-f895-08dc5462f199"
+        }
+
+        try:
+            # Use the SDK to aggregate billing information for 3D Secure if the response code is H51.
+            response = self.hydrogenpay.Card.aggregateBillingInformation(billing_data, request_key)
+
+            logger.info("Aggregate Bill Infor Successful:")
+            logger.info(json.dumps(response, indent=4))
+
+
+        except HydrogenpayExceptions.TransactionVerificationError as e:
+            # Fail the test if transaction fails
+            self.fail(f"Aggregate Bill Failed: {e}")
+
+```
+
+*Returns*
+
+Response Example:
+
+```py
+
+{
+    "statusCode": "90000",
+    "message": "Operation Successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NGIzZTAwZS1hYmZkLTRlZmItYjFmMi0wOWJkMTU0YjI0OWQiLCJpYXQiOjE3MzAzNzgxMDAsImlzcyI6IjVkZDgzYmYwMGU0MjNkMTQ5OGRjYmFjYSIsImV4cCI6MTczMDM4MTcwMCwiT3JnVW5pdElkIjoiNjQ4MThiZmY3M2M5NjYzNGY0N2JiYTkxIiw",
+        "nextActionUrl": "https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp",
+        "html": null
+    }
+}
+
+```
+
+**Endpoint Flow Summary For Card Transaction**
+
+- The payment flow varies based on the response code from the purchase call:
+
+***Response Code H01 (OTP Authentication Required):***
+
+- Directs user to an OTP page.
+
+- User inputs the OTP they receive.
+
+- OTP is validated via a separate call.
+
+- Payment status is updated based on OTP validation.
+
+***Response Code H21 (Local Cards - 3D Secure Required):***
+
+- Redirects user to the issuing bank's 3D Secure page.
+
+- Completes 3D Secure authentication.
+
+- Validates the 3D Secure response from the bank.
+
+- Updates the payment status accordingly.
+
+***Response Code H51 (International Cards - 3D Secure with Billing Information):***
+
+- Collects additional billing information from the user.
+
+- Redirects user to the issuing bank's 3D Secure page.
+
+- Completes 3D Secure authentication.
+
+- Validates the bank's response.
+
+- Updates the payment status based on the outcome.
+
 
 ## Testing
 
@@ -431,6 +876,7 @@ All SDK tests are implemented using Python's ```unittest``` module. They current
 ```hydrogenpay.ConfirmPayment```
 ```hydrogenpay.BankTransfer```
 ```hydrogenpay.Transfer```
+```hydrogenpay.Card```
 
 ```sh
 Running the Tests
@@ -448,7 +894,13 @@ python -m unittest test_simulate_bank_transfer.py
 
 If you want to run all tests in the tests directory together, you can use the following command:
 
-python -m unittest discover -s tests
+python -m unittest discover -s tests 
+
+OR
+
+To run specific tests by name, use the following command:
+
+python -m unittest discover -s tests -p "test_card_purchase_confirm_status.py"
 
 ```
 

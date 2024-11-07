@@ -8,6 +8,10 @@ How to Run the Tests:
 ---------------------
 Run this file using the command:
     python -m unittest test_simulate_bank_transfer.py
+
+    OR
+
+    python -m unittest discover -s tests -p "test_simulate_bank_transfer.py"
 """
 
 import unittest

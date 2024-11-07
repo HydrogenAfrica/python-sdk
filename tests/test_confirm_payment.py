@@ -7,25 +7,12 @@ The tests verify the status of previously initiated transactions.
 How to Run the Tests:
 ---------------------
 Run this file using the command:
+
     python -m unittest test_confirm_payment.py
 
+    OR
 
-
-
-Running the Tests
-1. Navigate to the tests directory in your terminal.
-
-2. You can run each test file separately using the following command:
-
-python -m unittest test_initiate_payment.py
-python -m unittest test_confirm_payment.py
-python -m unittest test_initiate_bank_transfer.py
-python -m unittest test_simulate_bank_transfer.py
-
-3. Optional: Run All Tests at Once
-If you want to run all tests in the tests directory together, you can use the following command:
-
-python -m unittest discover -s tests
+    python -m unittest discover -s tests -p "test_confirm_payment.py"
 
 """
 

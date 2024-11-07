@@ -8,6 +8,10 @@ How to Run the Tests:
 ---------------------
 Run this file using the command:
     python -m unittest test_initiate_payment.py
+
+    OR
+
+    python -m unittest discover -s tests -p "test_initiate_payment.py"
 """
 
 import unittest
@@ -52,7 +56,7 @@ class TestInitiatePayment(unittest.TestCase):
             "currency": "NGN",
             "email": "bwitlawalyusuf@gmail.com",
             "customerName": "Lawal Yusuf",
-            "meta": "Test transaction",
+            "meta": "Test live transaction",
             "callback": "https://webhook.site/43309fe4-a1f7-406d-afff-09e1cb12b9ec", #"https://example.com/callback"
             "isAPI": True
         }
