@@ -58,8 +58,6 @@ class Transfer(HydrogenpayBase):
 
     def initiate(self, transferDetails):
         transferDetails = copy.copy(transferDetails)
-
-        print(f"Transfer details: {transferDetails}")
         requiredParameters = ["amount", "currency", "email", "customerName"]
         checkIfParametersAreComplete(requiredParameters, transferDetails)
 
@@ -74,9 +72,7 @@ class Transfer(HydrogenpayBase):
             endpoint,
             headers=headers,
             data=json.dumps(transferDetails))
-
-        # print(f"Transfer API Response: {response.status_code}")
-        # print(f"Transfer Response Body: {response.text}")
+        
         if response.ok:
             responseTime = response.elapsed.total_seconds()
             logging.info(f"Response OK: {responseTime}s")

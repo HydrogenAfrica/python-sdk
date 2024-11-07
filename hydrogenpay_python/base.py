@@ -18,15 +18,27 @@ class HydrogenpayBase(object):
        
 
         self._baseUrlMap = "https://api.hydrogenpay.com/"
+        self._qaUrlMap = "https://qa-api.hydrogenpay.com/"
         self._endpointMap = {
             "paymentservice": {
                 "initiate": "bepay/api/v1/merchant/initiate-payment",
-                "confirmpayment": "bepay/api/v1/Merchant/confirm-payment"
+                "confirmpayment": "bepay/api/v1/Merchant/confirm-payment",
+                "card": "bepay/api/v1/Merchant/confirm-payment"
             },
 
             "transfer": {
                 "initiate": "bepayment/api/v1/Merchant/initiate-bank-transfer",
                 "stimulatebanktransfer": "bepay/api/v1/Payment/simulate-bank-transfer",
+            },
+
+            "card": {
+                "generateClientKey": "bepayment/api/v2/Payment/generate-aggregator-client-keys",
+                "purchase": "bepayment/api/v2/Payment/purchase",
+                "validateOtp": "bepayment/api/v2/Payment/validate-otp",
+                "resendOtp": "bepayment/api/v2/Payment/resend-otp",
+                "confirmPurchaseStatus": "bepayment/api/v2/Payment/confirm-status",
+                "validate3DSecure": "bepayment/api/v2/Payment/validate-3dsecure",
+                "aggregateBillingInformation": "bepayment/api/v2/Payment/Aggregate-Billing-Information"
             },
 
         }
@@ -86,3 +98,4 @@ class HydrogenpayBase(object):
     def _getSandboxKey(self):
         """Returns the secret key (only available in live mode)."""
         return self.__sandboxKey
+    

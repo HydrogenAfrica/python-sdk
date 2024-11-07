@@ -13,8 +13,6 @@ class BankTransfer(Payment):
         res = self._preliminaryResponseChecks(response, PaymentInitiateError)
         responseJson = res["json"]
 
-        # print(f"Handle Stimulate Response : {responseJson}")
-        # Check if statusCode is "90000" (indicating success)
         status_code = responseJson.get("statusCode", None)
 
         if status_code == "90000":
