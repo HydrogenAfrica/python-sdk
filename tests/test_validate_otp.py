@@ -37,13 +37,13 @@ class TestPurchase(unittest.TestCase):
         mode = os.getenv("MODE")
 
         # Set up the Hydrogenpay instance using API keys from environment variables and the mode
-        # self.hydrogenpay = Hydrogenpay(
-        #     os.getenv("SANDBOX_API_KEY"),
-        #     os.getenv("LIVE_API_KEY"),
-        #     mode=mode
-        # )
+        self.hydrogenpay = Hydrogenpay(
+            os.getenv("SANDBOX_API_KEY"),
+            os.getenv("LIVE_API_KEY"),
+            mode=mode
+        )
 
-        self.hydrogenpay = Hydrogenpay("SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", "SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", 'test', setEnv=False)
+        # self.hydrogenpay = Hydrogenpay("SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", "SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", 'test', setEnv=False)
 
     def test_validate_otp(self):
         """
