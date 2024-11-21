@@ -37,13 +37,13 @@ class TestPurchase(unittest.TestCase):
         mode = os.getenv("MODE")
 
         # Set up the Hydrogenpay instance using API keys from environment variables and the mode
-        # self.hydrogenpay = Hydrogenpay(
-        #     os.getenv("SANDBOX_API_KEY"),
-        #     os.getenv("LIVE_API_KEY"),
-        #     mode=mode
-        # )
+        self.hydrogenpay = Hydrogenpay(
+            os.getenv("SANDBOX_API_KEY"),
+            os.getenv("LIVE_API_KEY"),
+            mode=mode
+        )
 
-        self.hydrogenpay = Hydrogenpay("SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", "SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", 'test', setEnv=False)
+        # self.hydrogenpay = Hydrogenpay("SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", "SK_TEST_58bd83bcfb01bb8b18211842143cc4826152131eaa45211e700091fd6872cab5af2724e972070e4cbc395e3dc8d84f7f1fbd4cd1af0a6e61d9adf6accb7685eb", 'test', setEnv=False)
 
     def test_purchase(self):
         """
@@ -57,6 +57,8 @@ class TestPurchase(unittest.TestCase):
         # Get client key and iv from the sdk using generateClientKey
         iv = data['clientIV']  # example IV
         key = data['clientKey']  # example key
+        apiRequestKey = data['apiRequestKey']  # example key
+
         
         # Base64-encoded IV and key
         # iv = '4betVRpFIVwvbNLJwMszew=='  # example IV
@@ -81,7 +83,8 @@ class TestPurchase(unittest.TestCase):
         print(f"Decrypted Card Details Test: {decrypted_text}")
 
         # Mock data for initiating a card purchase call
-        request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
+        request_key = apiRequestKey
+        # request_key = '617602DFEF417A1C00338E37534F002DC5F433490148696B13D193EC5917345D'
 
         transaction_details = {
             "transactionRef": "994vy44-345123399944978",

@@ -18,7 +18,9 @@ class HydrogenpayBase(object):
        
 
         self._baseUrlMap = "https://api.hydrogenpay.com/"
-        self._qaUrlMap = "https://qa-api.hydrogenpay.com/"
+        self._qaUrlMap = "https://api.hydrogenpay.com/"
+        # self._qaUrlMap = "https://qa-api.hydrogenpay.com/"
+
         self._endpointMap = {
             "paymentservice": {
                 "initiate": "bepay/api/v1/merchant/initiate-payment",
@@ -32,13 +34,13 @@ class HydrogenpayBase(object):
             },
 
             "card": {
-                "generateClientKey": "bepayment/api/v2/Payment/generate-aggregator-client-keys",
-                "purchase": "bepayment/api/v2/Payment/purchase",
-                "validateOtp": "bepayment/api/v2/Payment/validate-otp",
-                "resendOtp": "bepayment/api/v2/Payment/resend-otp",
-                "confirmPurchaseStatus": "bepayment/api/v2/Payment/confirm-status",
-                "validate3DSecure": "bepayment/api/v2/Payment/validate-3dsecure",
-                "aggregateBillingInformation": "bepayment/api/v2/Payment/Aggregate-Billing-Information"
+                "generateClientKey": "bepay/api/v2/Payment/generate-aggregator-client-keys",
+                "purchase": "bepay/api/v2/Payment/purchase",
+                "validateOtp": "bepay/api/v2/Payment/validate-otp",
+                "resendOtp": "bepay/api/v2/Payment/resend-otp",
+                "confirmPurchaseStatus": "bepay/api/v2/Payment/confirm-status",
+                "validate3DSecure": "bepay/api/v2/Payment/validate-3dsecure",
+                "aggregateBillingInformation": "bepay/api/v2/Payment/Aggregate-Billing-Information"
             },
 
         }
